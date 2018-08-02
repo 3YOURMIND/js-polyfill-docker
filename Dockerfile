@@ -3,12 +3,12 @@ FROM node:8.11.3-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-	    git \
-	    python \
-	    make \
-	    gcc \ 
-	    g++ \
-	    libc6-dev
+        git \
+        python \
+        make \
+        gcc \
+        g++ \
+        libc6-dev
 
 RUN git clone https://github.com/Financial-Times/polyfill-service.git /polyfill
 
