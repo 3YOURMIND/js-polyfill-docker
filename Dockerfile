@@ -8,7 +8,9 @@ RUN apt-get update && \
 	    make=4.0-8.1 \
 	    gcc=4:4.9.2-2 \ 
 	    g++=4:4.9.2-2 \
-	    libc6-dev=2.19-18+deb8u10
+	    libc6-dev=2.19-18+deb8u10 && \
+	  apt-get clean && \
+	  rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/Financial-Times/polyfill-service.git /polyfill
 
