@@ -21,5 +21,5 @@ ENV NODE_ENV dev
 
 EXPOSE ${PORT}
 
-CMD ["node" ,"--optimize_for_size" ,"--max_old_space_size=460" ,"--gc_interval=100" ,"packages/polyfill-service/bin/polyfill-service"]
+CMD ["node", "--optimize_for_size", "--max_old_space_size=460", "--gc_interval=100", "packages/polyfill-service/bin/polyfill-service"]
 
