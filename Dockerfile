@@ -1,27 +1,23 @@
-# Node LTS
-FROM node:8.11.3-slim
+FROM node:10.15.3-alpine
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-	    git=1:2.1.4-2.1+deb8u6 \
-	    python=2.7.9-1 \
-	    make=4.0-8.1 \
-	    gcc=4:4.9.2-2 \ 
-	    g++=4:4.9.2-2 \
-	    libc6-dev=2.19-18+deb8u10 && \
-	  apt-get clean && \
-	  rm -rf /var/lib/apt/lists/*
-
-RUN git clone https://github.com/Financial-Times/polyfill-service.git /polyfill
-
+RUN apk add --no-cache --update bash
+RUN apk add --no-cache --update --virtual build git python make gcc g++
 WORKDIR /polyfill
-
-RUN npm run install
-
+ARG POLYFILL_TAG='v4.8.1'
+ARG NODE_ENV='production'
+RUN \
+	git clone https://github.com/Financial-Times/polyfill-service . && \
+	git checkout ${POLYFILL_TAG} && \
+	rm -rf .git && \
+	yarn install && \
+	sed -i.bak -e 's,^node,exec node,' start_server.sh && \
+	mv start_server.sh /bin/ && \
+	chmod a+x /bin/start_server.sh && \
+	apk del build
 ENV PORT 8801
-ENV NODE_ENV dev
 
 EXPOSE ${PORT}
 
-CMD ["node", "--optimize_for_size", "--max_old_space_size=460", "--gc_interval=100", "packages/polyfill-service/bin/polyfill-service"]
+CMD ["/bin/start_server.sh", "server/index.js"]
+# CMD ["/bin/sh", "-c", "sleep 3600"]
 
