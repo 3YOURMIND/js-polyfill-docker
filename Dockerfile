@@ -19,5 +19,6 @@ ENV PORT 8801
 EXPOSE ${PORT}
 
 CMD ["/bin/start_server.sh", "server/index.js"]
+# Use to debug if things don't start:
 # CMD ["/bin/sh", "-c", "sleep 3600"]
 
